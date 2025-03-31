@@ -3,6 +3,7 @@ package database
 import (
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
+	"github.com/LunaTearR/Ledgar/models"
 )
 
 func Connect(dbUser, dbName, dbPassword, dbHost string) (*gorm.DB, error) {
@@ -15,6 +16,14 @@ func Connect(dbUser, dbName, dbPassword, dbHost string) (*gorm.DB, error) {
 	if err != nil {
 		return nil, err
 	}
-
+	
 	return db, nil
+}
+
+func InitTables(db *gorm.DB) error {
+	return db.AutoMigrate(
+		&models.User{},
+		&models.Ledger{},
+		&models.AdminLog{},
+	)
 }
